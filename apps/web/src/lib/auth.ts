@@ -3,7 +3,7 @@ import { nextCookies } from "better-auth/next-js";
 import { betterAuth, type Account, type OAuth2Tokens, type OAuth2UserInfo } from "better-auth";
 
 async function fetchUserInfoFromCustomProvider(accessToken: string) {
-    const response = await fetch('https://oidc-server-demo.vercel.app/api/auth/oauth2/userinfo', {
+    const response = await fetch(`${process.env.MYTPEN_AUTH_SERVER}/api/auth/oauth2/userinfo`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`
         }
@@ -14,6 +14,7 @@ async function fetchUserInfoFromCustomProvider(accessToken: string) {
 }
 
 export const auth = betterAuth({
+    secret: process.env.MYTPEN_AUTH_SECRET,
 
     user: {
         additionalFields: {
@@ -32,7 +33,7 @@ export const auth = betterAuth({
                 providerId: "test-app", 
                 clientId: "VfrolVsbmKCPhSYQgIgpEnmFakpmfGgk",
                 clientSecret: "BxUtjGQkBfdxCWjlxGlNsiZoxOFzurPX", 
-                discoveryUrl: "https://oidc-server-demo.vercel.app/api/auth/.well-known/openid-configuration",
+                discoveryUrl: `${process.env.MYTPEN_AUTH_SERVER}/api/auth/.well-known/openid-configuration`,
                 // discoveryUrl: "http://localhost:3000/api/auth/.well-known/openid-configuration",
 
                 getUserInfo: async (tokens) => {
