@@ -14,8 +14,11 @@ export async function GET(request: NextRequest) {
     headersObj[key] = value;
   });
 
+
+  const headerList = await headers();
+  console.log("headerList", headerList);
   const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
+    headers: headerList // you need to pass the headers object.
 })
 
   return NextResponse.json({

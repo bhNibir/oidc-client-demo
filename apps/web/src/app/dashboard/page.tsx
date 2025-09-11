@@ -19,6 +19,20 @@ import { Loader2 } from "lucide-react";
 export default function Dashboard() {
 	// Get the session data using the useSession hook
 	const { data: session, isPending, error } = authClient.useSession();
+	const handleClick = async () => {
+		const { data, error } = await authClient.signIn.oauth2({
+			providerId: "test-app", // required
+			callbackURL: "/dashboard",
+			errorCallbackURL: "/error-page",
+			newUserCallbackURL: "/welcome",
+			scopes: ["openid", "profile", "email"],
+			// disableRedirect: false,
+			// scopes: ["my-scope"],
+			// requestSignUp: false,
+		});
+
+		console.log(data, error);
+	};
 
 
 	return (
@@ -85,6 +99,7 @@ export default function Dashboard() {
 						) : (
 							<div className="py-8 text-center text-muted-foreground">
 								<p>Sign in to view your session information</p>
+								<Button variant="outline" className="w-full mt-4"  onClick={handleClick}>Sign In</Button>
 							</div>
 						)}
 					</CardContent>
