@@ -1,12 +1,11 @@
 import { genericOAuth, lastLoginMethod, oidcProvider } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { betterAuth, type Account, type OAuth2Tokens, type OAuth2UserInfo } from "better-auth";
-import { jwt } from "better-auth/plugins";
 
-async function fetchUserInfoFromCustomProvider(tokens: OAuth2Tokens) {
+async function fetchUserInfoFromCustomProvider(accessToken: string) {
     const response = await fetch('https://oidc-server-demo.vercel.app/api/auth/oauth2/userinfo', {
         headers: {
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         }
       });
       const userInfo = await response.json();
@@ -15,6 +14,17 @@ async function fetchUserInfoFromCustomProvider(tokens: OAuth2Tokens) {
 }
 
 export const auth = betterAuth({
+
+    user: {
+        additionalFields: {
+            accessToken: {
+            type: "string",
+            required: false,
+            defaultValue: "",
+            input: false, // don't allow user to set role
+          },
+        },
+      },
     // database: new Database("better-auth.db"),
     plugins: [
         genericOAuth({
@@ -28,11 +38,11 @@ export const auth = betterAuth({
                 getUserInfo: async (tokens) => {
 
                     console.log("tokens", tokens);                // Custom logic to fetch and return user info
-                    const userInfo = await fetchUserInfoFromCustomProvider(tokens);
+                    const userInfo = await fetchUserInfoFromCustomProvider(tokens.accessToken || "");
                     console.log("userInfo", userInfo);
                     return {
                      ...userInfo,
-                     token: tokens.accessToken,
+                     accessToken: tokens.accessToken,
                     };
                   }
             },
