@@ -14,15 +14,16 @@ export async function GET(request: NextRequest) {
     headers: await headers() // some endpoints might require headers
   })
 
+  let token = null
 
-  const token = await auth.api.getAccessToken({
-    body: {
-      providerId: "test-app-local", // or any other provider id
-      accountId: "VNfiJSgbhPmkYgpNmxzrLZHOXkmfBGXl", // optional, if you want to get the access token for a specific account
-      userId: session?.user.id, // optional, if you don't provide headers with authenticated token
-    },
-    headers: await headers(),
-  });
+  if(session){
+     token = await auth.api.getAccessToken({
+      body: {
+        providerId: "test-app-local", // or any other provider id
+      },
+      headers: await headers(),
+    });
+  }
 
 
   return NextResponse.json({
