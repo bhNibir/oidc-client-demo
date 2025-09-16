@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
      token = await auth.api.getAccessToken({
       body: {
         providerId: "test-app-local", // or any other provider id
+        userId: session?.user.id, // optional, if you don't provide headers with authenticated token
       },
       headers: await headers(),
     });
