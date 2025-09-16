@@ -24,7 +24,7 @@ export default function Dashboard() {
 			providerId: providerId, // required
 			callbackURL: "/dashboard",
 			errorCallbackURL: "/error-page",
-			newUserCallbackURL: "/welcome",
+			newUserCallbackURL: "/dashboard",
 			scopes: ["openid", "profile", "email"],
 			// disableRedirect: false,
 			// scopes: ["my-scope"],

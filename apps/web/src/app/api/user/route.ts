@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   if(session){
      token = await auth.api.getAccessToken({
       body: {
-        providerId: "test-app-local", // or any other provider id
+        providerId: process.env.MYTPEN_AUTH_PROVIDERID!, // or any other provider id
         userId: session?.user.id, // optional, if you don't provide headers with authenticated token
       },
       headers: await headers(),
