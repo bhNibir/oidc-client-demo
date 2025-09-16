@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { signIn, authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +34,22 @@ export default function Dashboard() {
 		console.log(data, error);
 	};
 
+
+	useEffect(()=>{
+
+		const isAuthenticated = async () => {
+			const tokens = await authClient.getAccessToken({
+				providerId: process.env.NEXT_PUBLIC_MYTPEN_AUTH_PROVIDERID!
+			})
+		
+		
+			console.log(tokens)
+		}
+	
+	
+		isAuthenticated()
+
+	}, [])
 
 	return (
 		<div className="container mx-auto py-10 space-y-8">
