@@ -111,7 +111,7 @@ export const auth = betterAuth({
 
                if(session){
                 session.session.accessToken = session.user.accessToken
-                delete session.user.accessToken
+                // delete session.user.accessToken
                }
             }
 
