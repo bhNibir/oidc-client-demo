@@ -87,6 +87,7 @@ export const auth = betterAuth({
                             data: {
                                 ...user,
                                 id: String(user.sub),
+                                accessToken: user.accessToken,
                             },
                         };
                     }
@@ -95,6 +96,7 @@ export const auth = betterAuth({
                     return {
                         data: {
                             ...user,
+                            accessToken: user.accessToken,
                         },
                     };
                    
