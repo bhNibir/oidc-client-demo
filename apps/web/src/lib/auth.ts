@@ -70,6 +70,32 @@ export const auth = betterAuth({
                 clientSecret: "BxUtjGQkBfdxCWjlxGlNsiZoxOFzurPX", 
                 discoveryUrl: `${process.env.MYTPEN_AUTH_SERVER}/api/auth/.well-known/openid-configuration`,
                 // discoveryUrl: "http://localhost:3000/api/auth/.well-known/openid-configuration",
+                getUserInfo: async (tokens) => {
+                    // Custom logic to fetch and return user info
+
+                    if (tokens.idToken) {
+                        const decoded = decodeJwt(tokens.idToken) as {
+                            sub: string;
+                            email_verified: boolean;
+                            email: string;
+                            name: string;
+                            picture: string;
+                        };
+                        if (decoded) {
+                            // console.log(decoded)
+                            if (decoded.sub && decoded.email) {
+                                return {
+                                    id: decoded.sub,
+                                    emailVerified: decoded.email_verified,
+                                    image: decoded.picture,
+                                    accessToken: tokens.accessToken,
+                                    ...decoded,
+                                };
+                            }
+                        }
+                    }
+                   return null
+                  },
             },
             
         ],
@@ -87,7 +113,6 @@ export const auth = betterAuth({
                             data: {
                                 ...user,
                                 id: String(user.sub),
-                                accessToken: user.accessToken,
                             },
                         };
                     }
@@ -96,7 +121,6 @@ export const auth = betterAuth({
                     return {
                         data: {
                             ...user,
-                            accessToken: user.accessToken,
                         },
                     };
                    
