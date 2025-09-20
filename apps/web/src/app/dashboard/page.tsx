@@ -35,21 +35,21 @@ export default function Dashboard() {
 	};
 
 
-	useEffect(()=>{
+	// useEffect(()=>{
 
-		const isAuthenticated = async () => {
-			const tokens = await authClient.getAccessToken({
-				providerId: process.env.NEXT_PUBLIC_MYTPEN_AUTH_PROVIDERID!
-			})
+	// 	const isAuthenticated = async () => {
+	// 		const tokens = await authClient.getAccessToken({
+	// 			providerId: process.env.NEXT_PUBLIC_MYTPEN_AUTH_PROVIDERID!
+	// 		})
 		
 		
-			console.log(tokens)
-		}
+	// 		console.log(tokens)
+	// 	}
 	
 	
-		isAuthenticated()
+	// 	isAuthenticated()
 
-	}, [])
+	// }, [])
 
 	return (
 		<div className="container mx-auto py-10 space-y-8">
